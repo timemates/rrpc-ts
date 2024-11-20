@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "protobufjs": "^7.4.0",
+    "rsocket": "^0.0.11",
+    "rsocket-core": "^0.0.29-alpha.0",
+    "rsocket-flowable": "^0.0.29-alpha.0"
+  },
+  "devDependencies": {
+    "@types/rsocket-flowable": "^0.0.8"
+  }
+}
