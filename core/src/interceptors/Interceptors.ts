@@ -3,7 +3,7 @@ import {ClientMetadata, ServerMetadata} from "../RRpcMetadata";
 import {Options} from "../options/Options";
 import {InstanceContainer} from "../instances/InstanceContainer";
 import {InterceptorContext} from "./InterceptorContext";
-import {DataVariant} from "../DataVariant";
+import {DataVariant} from "../instances/DataVariant";
 import {Single} from "rsocket-flowable";
 
 export class Interceptors {

@@ -86,7 +86,7 @@ export class ClientMetadata extends Message<ClientMetadata> implements RRpcMetad
 }
 
 /**
- * Represents metadata information sent from the server to the client-core.
+ * Represents metadata information sent from the server to the client.
  *
  * @property schemaVersion The current version of the schema.
  * @property extra Additional key-value metadata as a map of integers to binary data.

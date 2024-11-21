@@ -5,7 +5,7 @@ require("@protobufjs")
 import {RRpcMetadata} from "../RRpcMetadata";
 import {InstanceContainer} from "../instances/InstanceContainer";
 import {Options} from "../options/Options";
-import {DataVariant} from "../DataVariant";
+import {DataVariant} from "../instances/DataVariant";
 
 /**
  * Represents the context for interceptors to access and modify request-related data,
@@ -38,17 +38,6 @@ export class InterceptorContext<TMetadata extends RRpcMetadata> {
 
     public builder(): InterceptorContextBuilder<TMetadata> {
         return new InterceptorContextBuilder(this);
-    }
-
-    /**
-     * Modifies the context immutably using a configuration block.
-     * @param configBlock - The configuration block to modify the context.
-     * @returns A new `InterceptorContext` instance with the modifications.
-     */
-    public modify(configBlock: (builder: InterceptorContextBuilder<TMetadata>) => void): InterceptorContext<TMetadata> {
-        const builder = this.builder();
-        configBlock(builder);
-        return builder.build();
     }
 }
 

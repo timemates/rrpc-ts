@@ -1,5 +1,5 @@
-import {Interceptors} from "./interceptors/Interceptors";
-import {InstanceContainer} from "./instances/InstanceContainer";
+import {Interceptors} from "../../core/src/interceptors/Interceptors";
+import {InstanceContainer} from "../../core/src/instances/InstanceContainer";
 import {ReactiveSocket} from "rsocket-types/ReactiveSocketTypes";
 
 export class RRpcClientModule {

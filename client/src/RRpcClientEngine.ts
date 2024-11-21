@@ -1,8 +1,9 @@
 import {RRpcClientModule} from "./RRpcClientModule";
 import {Message} from "protobufjs/light";
-import {ClientMetadata, ServerMetadata} from "./RRpcMetadata";
+import {ClientMetadata, ServerMetadata} from "../../core/src/RRpcMetadata";
 import {Flowable, Single} from "rsocket-flowable";
-import {Options} from "./options/Options";
+import {Payload} from "rsocket-types"
+import {Options} from "../../core/src/options/Options";
 
 /**
  * RRpcClientEngine: Core engine to handle communication between the client
@@ -127,7 +128,7 @@ export class RRpcClientEngine {
                                 const serverMetadata = ServerMetadata.decode(payload.metadata)
 
                                 this.module.interceptors.runOutputInterceptors(
-                                    flowableResponse.map((payload) => {
+                                    flowableResponse.map((payload: Payload<Uint8Array, Uint8Array>) => {
                                         if (payload.data == null)
                                             throw new Error("Cannot be null, server error.")
                                         return serialize(payload.data)
