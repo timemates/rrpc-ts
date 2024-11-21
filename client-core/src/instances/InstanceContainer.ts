@@ -2,34 +2,19 @@
 import {InstanceKey, ProvidableInstance} from "./ProvidableInstance";
 import {InstancesBuilder} from "./InstanceBuilder";
 
-export function instances(block: (builder: InstancesBuilder) => void): ProvidableInstance[] {
-    const builder = new InstancesBuilder();
-    block(builder);  // Configure the builder
-    return builder.build();  // Return the final built instances
-}
-
-// InstanceContainer interface for holding instances
-export interface InstanceContainer {
-
-    // Retrieves an instance by its key
-    getInstance<T extends ProvidableInstance>(key: InstanceKey<T>): T | undefined;
-
-    // Add a single instance to the container
-    add(instance: ProvidableInstance): InstanceContainer;
-
-    // Add multiple instances to the container
-    addAll(instances: ProvidableInstance[]): InstanceContainer;
-
-    // Combine current container with another container
-    merge(container: InstanceContainer): InstanceContainer;
-
-    // Convert the container to a map
-    asMap(): Map<InstanceKey<any>, ProvidableInstance>;
-}
-
 // Implementation of InstanceContainer
-class InstanceContainerImpl implements InstanceContainer {
+export class InstanceContainer {
     private readonly instances: Map<InstanceKey<any>, ProvidableInstance>;
+
+    public static EMPTY: InstanceContainer = new InstanceContainer(new Map());
+
+    static create(instances: Map<InstanceKey<any>, ProvidableInstance>): InstanceContainer {
+        return new InstanceContainer(instances);
+    }
+
+    static builder(): InstancesBuilder {
+        return new InstancesBuilder();
+    }
 
     constructor(instances: Map<InstanceKey<any>, ProvidableInstance>) {
         this.instances = instances;
@@ -44,7 +29,7 @@ class InstanceContainerImpl implements InstanceContainer {
     public add(instance: ProvidableInstance): InstanceContainer {
         const newMap = new Map(this.instances);
         newMap.set(instance.key, instance);
-        return new InstanceContainerImpl(newMap);
+        return new InstanceContainer(newMap);
     }
 
     // Add multiple instances to the container
@@ -53,20 +38,14 @@ class InstanceContainerImpl implements InstanceContainer {
         instances.forEach(instance => {
             newMap.set(instance.key, instance);
         });
-        return new InstanceContainerImpl(newMap);
+        return new InstanceContainer(newMap);
     }
 
     public merge(container: InstanceContainer): InstanceContainer {
-        return new InstanceContainerImpl(new Map([...this.instances, ...container.asMap()]));
+        return new InstanceContainer(new Map([...this.instances, ...container.asMap()]));
     }
 
     public asMap(): Map<InstanceKey<any>, ProvidableInstance> {
         return this.instances;
-    }
-}
-
-namespace InstanceContainer {
-    export function create(instances: Map<InstanceKey<any>, ProvidableInstance>): InstanceContainer {
-        return new InstanceContainerImpl(instances);
     }
 }
